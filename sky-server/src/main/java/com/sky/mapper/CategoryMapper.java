@@ -3,6 +3,7 @@ package com.sky.mapper;
 import com.github.pagehelper.Page;
 import com.sky.dto.CategoryPageQueryDTO;
 import com.sky.entity.Category;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -26,4 +27,17 @@ public interface CategoryMapper {
             "values " +
             "(#{type},#{name},#{sort},#{status},#{createTime},#{updateTime},#{createUser},#{updateUser});")
     void insert(Category category);
+
+    /**
+     * 启用、禁用分类
+     * @param category
+     */
+    void update(Category category);
+
+    /**
+     * 根据id删除分类
+     * @param id
+     */
+    @Delete("delete from sky_take_out.category where id=#{id}")
+    void delete(Long id);
 }
