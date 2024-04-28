@@ -6,6 +6,7 @@ import com.sky.entity.Employee;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
@@ -23,6 +24,7 @@ public interface EmployeeMapper {
 
     /**
      * 插入员工数据
+     *
      * @param employee
      */
     @Insert("insert into sky_take_out.employee" +
@@ -33,6 +35,7 @@ public interface EmployeeMapper {
 
     /**
      * 查询总记录数
+     *
      * @return
      */
     @Select("select count(*) from sky_take_out.employee;")
@@ -40,8 +43,16 @@ public interface EmployeeMapper {
 
     /**
      * 分页查询
+     *
      * @param employeePageQueryDTO
      * @return
      */
     Page<Employee> pageQuery(EmployeePageQueryDTO employeePageQueryDTO);
+
+    /**
+     *根据主键动态修改属性
+     * @param employee
+     * @return
+     */
+    void update(Employee employee);
 }
