@@ -98,6 +98,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     /**
      * 分页查询
+     *
      * @param employeePageQueryDTO
      * @return
      */
@@ -120,15 +121,15 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public PageResult pageQuery(EmployeePageQueryDTO employeePageQueryDTO) {
         //当前页数
-        Integer page=employeePageQueryDTO.getPage();
+        Integer page = employeePageQueryDTO.getPage();
         //总页数
-        Integer pageSize=employeePageQueryDTO.getPageSize();
+        Integer pageSize = employeePageQueryDTO.getPageSize();
 
-        PageHelper.startPage(page,pageSize);
+        PageHelper.startPage(page, pageSize);
 
-        Page<Employee> p=employeeMapper.pageQuery(employeePageQueryDTO);
+        Page<Employee> p = employeeMapper.pageQuery(employeePageQueryDTO);
 
-        PageResult pageResult=new PageResult(p.getTotal(),p.getResult());
+        PageResult pageResult = new PageResult(p.getTotal(), p.getResult());
         return pageResult;
     }
 
@@ -139,11 +140,38 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @return
      */
     @Override
-    public void startOrStop(Integer status,Long id) {
-        Employee employee=Employee.builder()
+    public void startOrStop(Integer status, Long id) {
+        Employee employee = Employee.builder()
                 .status(status)
                 .id(id)
                 .build();
+        employeeMapper.update(employee);
+    }
+
+    /**
+     * 根据id查询员工
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public Employee selectById(Long id) {
+        Employee employee = employeeMapper.selectById(id);
+        employee.setPassword("*****");
+        return employee;
+    }
+
+    /**
+     * 编辑员工信息
+     *
+     * @param employeeDTO
+     */
+    @Override
+    public void update(EmployeeDTO employeeDTO) {
+        Employee employee = new Employee();
+        BeanUtils.copyProperties(employeeDTO, employee);
+        employee.setUpdateUser(BaseContext.getCurrentId());
+        employee.setUpdateTime(LocalDateTime.now());
         employeeMapper.update(employee);
     }
 }
