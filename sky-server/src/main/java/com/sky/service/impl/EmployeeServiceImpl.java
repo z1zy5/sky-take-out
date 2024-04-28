@@ -1,16 +1,20 @@
 package com.sky.service.impl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.sky.constant.MessageConstant;
 import com.sky.constant.PasswordConstant;
 import com.sky.constant.StatusConstant;
 import com.sky.context.BaseContext;
 import com.sky.dto.EmployeeDTO;
 import com.sky.dto.EmployeeLoginDTO;
+import com.sky.dto.EmployeePageQueryDTO;
 import com.sky.entity.Employee;
 import com.sky.exception.AccountLockedException;
 import com.sky.exception.AccountNotFoundException;
 import com.sky.exception.PasswordErrorException;
 import com.sky.mapper.EmployeeMapper;
+import com.sky.result.PageResult;
 import com.sky.service.EmployeeService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -91,4 +96,39 @@ public class EmployeeServiceImpl implements EmployeeService {
         employeeMapper.insert(employee);
     }
 
+    /**
+     * 分页查询
+     * @param employeePageQueryDTO
+     * @return
+     */
+
+    /*@Override
+    public PageResult pageQuery(EmployeePageQueryDTO employeePageQueryDTO) {
+        //总记录数
+        Long total=employeeMapper.count();
+        //当前页数
+        Integer page=employeePageQueryDTO.getPage();
+        //总页数
+        Integer pageSize=employeePageQueryDTO.getPageSize();
+        Integer start=(page-1)*pageSize;
+        List<Employee> records=employeeMapper.list(start,pageSize);
+        PageResult pageResult=new PageResult(total,records);
+        return pageResult;
+    }*/
+
+    //PageHelper
+    @Override
+    public PageResult pageQuery(EmployeePageQueryDTO employeePageQueryDTO) {
+        //当前页数
+        Integer page=employeePageQueryDTO.getPage();
+        //总页数
+        Integer pageSize=employeePageQueryDTO.getPageSize();
+
+        PageHelper.startPage(page,pageSize);
+
+        Page<Employee> p=employeeMapper.pageQuery(employeePageQueryDTO);
+
+        PageResult pageResult=new PageResult(p.getTotal(),p.getResult());
+        return pageResult;
+    }
 }
