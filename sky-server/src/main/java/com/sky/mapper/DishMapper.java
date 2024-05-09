@@ -56,4 +56,12 @@ public interface DishMapper {
      * @param ids
      */
     void deleteByIds(List<Long> ids);
+
+    /**
+     * 根据id查询菜品
+     * @param id
+     * @return
+     */
+    @Select("select * from sky_take_out.dish where id=#{id}")
+    Dish seleteById(Long id);
 }
