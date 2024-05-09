@@ -42,42 +42,73 @@ public class DishController {
 
     /**
      * 菜品分页查询
+     *
      * @param dishPageQueryDTO
      * @return
      */
     @GetMapping("/page")
     @ApiOperation("菜品分页查询")
-    public Result<PageResult> page(DishPageQueryDTO dishPageQueryDTO){
+    public Result<PageResult> page(DishPageQueryDTO dishPageQueryDTO) {
         log.info("分页查询:{}", dishPageQueryDTO);
-        PageResult pageResult=dishService.page(dishPageQueryDTO);
-        log.info("菜品：{}",pageResult);
+        PageResult pageResult = dishService.page(dishPageQueryDTO);
+        log.info("菜品：{}", pageResult);
         return Result.success(pageResult);
     }
 
     /**
      * 批量删除菜品
+     *
      * @param ids
      * @return
      */
     @DeleteMapping
     @ApiOperation("批量删除菜品")
-    public Result delete(@RequestParam List<Long> ids){
-        log.info("批量删除菜品:{}",ids);
+    public Result delete(@RequestParam List<Long> ids) {
+        log.info("批量删除菜品:{}", ids);
         dishService.delete(ids);
         return Result.success();
     }
 
     /**
      * 根据id查询菜品
+     *
      * @param id
      * @return
      */
     @GetMapping("/{id}")
     @ApiOperation("根据id查询菜品")
-    public Result<DishVO> selectById(@PathVariable Long id){
-        log.info("根据id查询菜品:{}",id);
+    public Result<DishVO> selectById(@PathVariable Long id) {
+        log.info("根据id查询菜品:{}", id);
         DishVO dishVO = dishService.seleteById(id);
         return Result.success(dishVO);
+    }
+
+    /**
+     * 修改菜品
+     *
+     * @param dishDTO
+     * @return
+     */
+    @PutMapping
+    @ApiOperation("修改菜品")
+    public Result update(@RequestBody DishDTO dishDTO) {
+        log.info("修改菜品:{}", dishDTO);
+        dishService.update(dishDTO);
+        return Result.success();
+    }
+
+    /**
+     * 菜品起售、停售
+     *
+     * @param status,id
+     * @return
+     */
+    @PostMapping("/status/{status}")
+    @ApiOperation("菜品起售、停售")
+    public Result startOrStop(@PathVariable Integer status, Long id) {
+        log.info("菜品起售、停售:{},{}", status, id);
+        dishService.startOrStop(status, id);
+        return Result.success();
     }
 
 }

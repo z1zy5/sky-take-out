@@ -1,5 +1,6 @@
 package com.sky.mapper;
 
+import com.sky.dto.DishDTO;
 import com.sky.entity.DishFlavor;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
@@ -36,4 +37,6 @@ public interface DishFlavorMapper {
      */
     @Select("select * from sky_take_out.dish_flavor where dish_id=#{dishId}")
     List<DishFlavor> selectById(Long dishId);
+
+
 }

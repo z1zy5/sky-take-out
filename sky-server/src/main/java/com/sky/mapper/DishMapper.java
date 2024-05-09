@@ -25,6 +25,7 @@ public interface DishMapper {
 
     /**
      * 插入菜品数据
+     *
      * @param dish
      */
     @AutoFill(value = OperationType.INSERT)
@@ -32,6 +33,7 @@ public interface DishMapper {
 
     /**
      * 菜品分页查询
+     *
      * @param dishPageQueryDTO
      * @return
      */
@@ -39,6 +41,7 @@ public interface DishMapper {
 
     /**
      * 批量删除菜品
+     *
      * @param id
      */
     @Delete("delete from sky_take_out.dish where id =#{id}")
@@ -46,6 +49,7 @@ public interface DishMapper {
 
     /**
      * 根据主键查询菜品
+     *
      * @param id
      */
     @Select("select * from sky_take_out.dish where id=#{id}")
@@ -53,15 +57,16 @@ public interface DishMapper {
 
     /**
      * 根据ids批量删除菜品
+     *
      * @param ids
      */
     void deleteByIds(List<Long> ids);
 
     /**
-     * 根据id查询菜品
-     * @param id
-     * @return
+     * 修改菜品信息和关联口味数据
+     *
+     * @param dish
      */
-    @Select("select * from sky_take_out.dish where id=#{id}")
-    Dish seleteById(Long id);
+    @AutoFill(value = OperationType.UPDATE)
+    void update(Dish dish);
 }
