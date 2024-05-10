@@ -3,6 +3,14 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sky.mapper.SetmealDishMapper">
+    
+    <insert id="insert">
+        insert into sky_take_out.setmeal_dish(setmeal_id, dish_id, name, price, copies)
+        values
+        <foreach collection="setmealDishes" item="setmeal" separator=",">
+            (#{setmeal.setmealId},#{setmeal.dishId},#{setmeal.name},#{setmeal.price},#{setmeal.copies})
+        </foreach>
+    </insert>
 
     <select id="getSetmealIdsByDishIds" resultType="java.lang.Long">
         select setmeal_id
@@ -12,20 +20,5 @@
         </foreach>
     </select>
 
-    <select id="pageQuery" resultType="com.sky.entity.Setmeal">
-        select *
-        from sky_take_out.setmeal
-        <where>
-            <if test="name!=null">
-                name=#{name}
-            </if>
-            <if test="categoryId!=null">
-                category_id=#{categoryId}
-            </if>
-            <if test="status!=null">
-                status=#{status}
-            </if>
-        </where>
-        order by create_time desc
-    </select>
+
 </mapper>

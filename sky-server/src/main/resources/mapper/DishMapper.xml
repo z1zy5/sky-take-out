@@ -60,4 +60,14 @@
         where id=#{id}
     </update>
 
+    <select id="list" resultType="com.sky.entity.Dish">
+        select *
+        from sky_take_out.dish
+        where status=1
+        <if test="id!=null">
+            and category_id=#{id}
+        </if>
+        order by create_time desc
+    </select>
+
 </mapper>
