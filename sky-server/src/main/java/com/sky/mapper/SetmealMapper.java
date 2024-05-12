@@ -49,4 +49,10 @@ public interface SetmealMapper {
      * @param ids
      */
     void delete(List<Long> ids);
+
+    /**
+     * 修改套餐
+     * @param setmeal
+     */
+    void update(Setmeal setmeal);
 }
