@@ -1,8 +1,5 @@
 package com.sky.mapper;
 
-import com.github.pagehelper.Page;
-import com.sky.dto.SetmealPageQueryDTO;
-import com.sky.entity.Setmeal;
 import com.sky.entity.SetmealDish;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -32,4 +29,10 @@ public interface SetmealDishMapper {
      * @param setmealDishes
      */
     void insert(List<SetmealDish> setmealDishes);
+
+    /**
+     * 批量删除套餐关联的菜品数据
+     * @param ids
+     */
+    void delete(List<Long> ids);
 }

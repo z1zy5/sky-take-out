@@ -12,6 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * 套餐管理
  */
@@ -26,43 +28,58 @@ public class SetmealController {
 
     /**
      * 分页查询
+     *
      * @param setmealPageQueryDTO
      * @return
      */
     @GetMapping("/page")
     @ApiOperation("分页查询")
-    public Result<PageResult> page(SetmealPageQueryDTO setmealPageQueryDTO){
-        log.info("分页查询:{}",setmealPageQueryDTO);
-        PageResult pageResult=setmealService.page(setmealPageQueryDTO);
+    public Result<PageResult> page(SetmealPageQueryDTO setmealPageQueryDTO) {
+        log.info("分页查询:{}", setmealPageQueryDTO);
+        PageResult pageResult = setmealService.page(setmealPageQueryDTO);
         return Result.success(pageResult);
     }
 
     /**
      * 新增套餐
+     *
      * @param setmealDTO
      * @return
      */
     @PostMapping
     @ApiOperation("新增套餐")
-    public Result save(@RequestBody SetmealDTO setmealDTO){
-        log.info("新增套餐:{}",setmealDTO);
+    public Result save(@RequestBody SetmealDTO setmealDTO) {
+        log.info("新增套餐:{}", setmealDTO);
         setmealService.save(setmealDTO);
         return Result.success();
     }
 
     @GetMapping("/{id}")
     @ApiOperation("根据id查询套餐")
-    public Result<SetmealVO> selectById(@PathVariable Long id){
-        log.info("根据id查询套餐:{}",id);
+    public Result<SetmealVO> selectById(@PathVariable Long id) {
+        log.info("根据id查询套餐:{}", id);
         SetmealVO setmealVO = setmealService.selectById(id);
         return Result.success(setmealVO);
     }
 
     @PutMapping
     @ApiOperation("修改套餐")
-    public Result update(@RequestBody SetmealDTO setmealDTO){
-        log.info("修改套餐:{}",setmealDTO);
+    public Result update(@RequestBody SetmealDTO setmealDTO) {
+        log.info("修改套餐:{}", setmealDTO);
         setmealService.update(setmealDTO);
+        return Result.success();
+    }
+
+    /**
+     * 批量删除套餐
+     * @param ids
+     * @return
+     */
+    @DeleteMapping
+    @ApiOperation("批量删除套餐")
+    public Result delete(@RequestParam List<Long> ids) {
+        log.info("批量删除套餐:{}", ids);
+        setmealService.delete(ids);
         return Result.success();
     }
 
