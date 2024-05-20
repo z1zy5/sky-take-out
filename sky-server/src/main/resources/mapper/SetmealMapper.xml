@@ -16,13 +16,13 @@
         from sky_take_out.setmeal
         <where>
             <if test="name!=null">
-                name=#{name}
+                and name like concat('%',#{name},'%')
             </if>
             <if test="categoryId!=null">
-                category_id=#{categoryId}
+                and category_id=#{categoryId}
             </if>
             <if test="status!=null">
-                status=#{status}
+                and status=#{status}
             </if>
         </where>
         order by create_time desc
