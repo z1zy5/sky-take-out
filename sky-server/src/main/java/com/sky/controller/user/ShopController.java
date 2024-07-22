@@ -1,7 +1,6 @@
 package com.sky.controller.user;
 
 import com.sky.result.Result;
-import com.sky.service.ShopService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -20,9 +19,7 @@ public class ShopController {
 
     @Autowired
     private RedisTemplate redisTemplate;
-
-    @Autowired
-    private ShopService shopService;
+    
 
     /**
      * 获取营业状态
