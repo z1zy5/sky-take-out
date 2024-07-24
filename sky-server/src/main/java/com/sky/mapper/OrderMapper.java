@@ -5,8 +5,6 @@ import com.sky.dto.OrdersPageQueryDTO;
 import com.sky.entity.Orders;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
-import org.springframework.core.annotation.Order;
 
 
 @Mapper
@@ -25,6 +23,11 @@ public interface OrderMapper {
      */
     @Select("select * from orders where number = #{orderNumber}")
     Orders getByNumber(String orderNumber);
+
+
+    @Select("select * from orders where number = #{orderNumber} and user_id= #{userId}")
+    Orders getByNumberAndUserId(String orderNumber, Long userId);
+
 
     /**
      * 修改订单信息
@@ -47,5 +50,13 @@ public interface OrderMapper {
     @Select("select * from orders where id=#{id}")
     Orders getById(Long id);
 
+
+    /**
+     * 根据状态统计订单数量
+     * @param toBeConfirmed
+     * @return
+     */
+    @Select("select count(id) from orders where status=#{status}")
+    Integer countStatus(Integer toBeConfirmed);
 
 }
