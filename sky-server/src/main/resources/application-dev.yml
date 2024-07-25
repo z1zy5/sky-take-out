@@ -19,3 +19,7 @@ sky:
   wechat:
     appid: wx5f273eee9cfffa45
     secret: e45ba8f9947af4da779cbb8dd06174ca
+  shop:
+    address: 河南省郑州市洼刘新城-A区
+  baidu:
+    ak: mvpGoeXesiGFZgWs7ddIJQO3pKWcKSY1
