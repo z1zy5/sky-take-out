@@ -47,10 +47,17 @@ public interface OrderService {
     OrderVO details(Long id);
 
     /**
-     * 取消订单
+     * 用户取消订单
      * @param id
      */
     void cancel(Long id) throws Exception;
+
+
+    /**
+     * 商家取消订单
+     * @param ordersCancelDTO
+     */
+    void cancel(OrdersCancelDTO ordersCancelDTO) throws Exception;
 
     /**
      * 再来一单
