@@ -5,6 +5,7 @@ import com.sky.mapper.OrderMapper;
 import com.sky.mapper.UserMapper;
 import com.sky.service.ReportService;
 import com.sky.vo.OrderReportVO;
+import com.sky.vo.SalesTop10ReportVO;
 import com.sky.vo.TurnoverReportVO;
 import com.sky.vo.UserReportVO;
 import lombok.extern.slf4j.Slf4j;
@@ -137,8 +138,68 @@ public class ReportServiceImpl implements ReportService {
             dateList.add(begin);
         }
 
+        //每日订单数
+        List<Integer> orderCountList = new ArrayList<>();
+        //每日有效订单数
+        List<Integer> validOrderCountList = new ArrayList<>();
+
+        for (LocalDate date : dateList) {
+
+            LocalDateTime beginTime = LocalDateTime.of(date, LocalTime.MIN);
+            LocalDateTime endTime = LocalDateTime.of(date, LocalTime.MAX);
+
+            Map map = new HashMap();
+            map.put("end",endTime);
+            map.put("begin",beginTime);
+            //每日订单数
+            Integer orderCount = orderMapper.countByMap(map);
+
+            map.put("status",Orders.COMPLETED);
+            //每日订单有效数
+            Integer validCount = orderMapper.countByMap(map);
+
+            orderCountList.add(orderCount);
+            validOrderCountList.add(validCount);
+        }
+
+        //订单总数
+        Integer totalOrderCount = orderCountList.stream().reduce(Integer::sum).get();
+        //有效订单数
+        Integer validOrderCount = validOrderCountList.stream().reduce(Integer::sum).get();
+        //订单完成率
+        Double orderCompletionRate = 0.0;
+        if (totalOrderCount !=0){
+            orderCompletionRate = validOrderCount.doubleValue()/totalOrderCount;
+        }
+
+        return OrderReportVO
+                .builder()
+                .dateList(StringUtils.join(dateList,","))
+                .totalOrderCount(totalOrderCount)
+                .orderCountList(StringUtils.join(orderCountList,","))
+                .validOrderCount(validOrderCount)
+                .orderCompletionRate(orderCompletionRate)
+                .validOrderCountList(StringUtils.join(validOrderCountList,","))
+                .build();
+    }
+
+    @Override
+    public SalesTop10ReportVO getTop10(LocalDate begin, LocalDate end) {
+        List<LocalDate> dateList = new ArrayList<>();
+
+        dateList.add(begin);
+
+        while (!begin.equals(end)){
+            begin = begin.plusDays(1);
+            dateList.add(begin);
+        }
+
+        //商品名称列表
+        List<String> nameList = new ArrayList<>();
+        //销量列表
+        List<String> numberList = new ArrayList<>();
 
 
-        return null;
+
     }
 }
