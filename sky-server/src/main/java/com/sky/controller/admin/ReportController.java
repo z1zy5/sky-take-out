@@ -76,6 +76,8 @@ public class ReportController {
      * 查询销量排名top10接口
      * @return
      */
+    @GetMapping("/top10")
+    @ApiOperation("查询销量排名top10")
     public Result<SalesTop10ReportVO> top10(
             @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate begin,
             @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate end
